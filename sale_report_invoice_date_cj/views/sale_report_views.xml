@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Add Tanggal Faktur column on the Sales Analysis list view,
+         right after the existing "Tanggal Order" (date) column. -->
+    <record id="sale_report_view_tree_invoice_date_cj" model="ir.ui.view">
+        <field name="name">sale.report.view.list.inherit.invoice.date.cj</field>
+        <field name="model">sale.report</field>
+        <field name="inherit_id" ref="sale.sale_report_view_tree"/>
+        <field name="arch" type="xml">
+            <field name="date" position="after">
+                <field name="invoice_date" string="Tanggal Faktur" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Add Tanggal Faktur on the search view:
+         - searchable field
+         - date filter (month/year/quarter/...)
+         - Group By (day / week / month / year)
+    -->
+    <record id="view_order_product_search_invoice_date_cj" model="ir.ui.view">
+        <field name="name">sale.report.search.inherit.invoice.date.cj</field>
+        <field name="model">sale.report</field>
+        <field name="inherit_id" ref="sale.view_order_product_search"/>
+        <field name="arch" type="xml">
+            <field name="date" position="after">
+                <field name="invoice_date"/>
+            </field>
+            <filter name="filter_date" position="after">
+                <filter name="filter_invoice_date" string="Invoice Date" date="invoice_date"/>
+            </filter>
+            <filter name="group_by_date" position="after">
+                <filter string="Tanggal Faktur" name="group_by_invoice_date" context="{'group_by':'invoice_date'}"/>
+                <filter string="Tanggal Faktur: Day" name="group_by_invoice_date_day" context="{'group_by':'invoice_date:day'}"/>
+                <filter string="Tanggal Faktur: Week" name="group_by_invoice_date_week" context="{'group_by':'invoice_date:week'}"/>
+                <filter string="Tanggal Faktur: Month" name="group_by_invoice_date_month" context="{'group_by':'invoice_date:month'}"/>
+                <filter string="Tanggal Faktur: Year" name="group_by_invoice_date_year" context="{'group_by':'invoice_date:year'}"/>
+            </filter>
+        </field>
+    </record>
+
+</odoo>
