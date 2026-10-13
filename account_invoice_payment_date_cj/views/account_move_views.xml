@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!--
+        Add the optional "Tanggal Pembayaran" column to the Invoice list view.
+        Inherited by both Customer Invoices and Vendor Bills (and any other view
+        inheriting from account.view_invoice_tree).
+    -->
+    <record id="view_invoice_tree_inherit_payment_date_cj" model="ir.ui.view">
+        <field name="name">account.invoice.list.inherit.payment.date.cj</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_partner_display_name'][2]" position="after">
+                <field name="payment_date_ids"
+                       string="Tanggal Pembayaran"
+                       widget="many2many_tags"
+                       optional="hide"
+                       options="{'no_create': True, 'no_quick_create': True, 'no_create_edit': True}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!--
+        The core view_invoice_tree already contains payment_reference (Char),
+        but with column_invisible forced to True for customer invoices
+        (out_invoice, out_refund, out_receipt). For customer invoices that
+        condition evaluates to True (context.default_move_type is 'out_invoice'),
+        so the column is permanently invisible regardless of the optional-column
+        toggle.
+
+        Override that attribute and rename the column to "Referensi Pembayaran".
+    -->
+    <record id="view_invoice_tree_inherit_payment_reference_cj" model="ir.ui.view">
+        <field name="name">account.invoice.list.inherit.payment.reference.cj</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <field name="payment_reference" position="attributes">
+                <attribute name="string">Referensi Pembayaran</attribute>
+                <attribute name="column_invisible">False</attribute>
+            </field>
+        </field>
+    </record>
+
+    <!--
+        Override the existing account.move.payment_reference field on the form
+        to display it as "Referensi Pembayaran" on the Invoice > Other Info >
+        Invoice section.
+    -->
+    <record id="view_move_form_inherit_payment_reference_cj" model="ir.ui.view">
+        <field name="name">account.move.form.inherit.payment.reference.cj</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <field name="payment_reference" position="attributes">
+                <attribute name="string">Referensi Pembayaran</attribute>
+            </field>
+        </field>
+    </record>
+
+</odoo>
