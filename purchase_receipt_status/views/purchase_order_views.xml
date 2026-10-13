@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="purchase_order_kpis_list_receipt_status" model="ir.ui.view">
+        <field name="name">purchase.order.kpis.list.receipt.status</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_kpis_tree"/>
+        <field name="arch" type="xml">
+            <field name="invoice_status" position="after">
+                <field name="x_receipt_status"
+                       string="Receipt Status"
+                       widget="badge"
+                       optional="show"
+                       decoration-danger="x_receipt_status == 'not_received'"
+                       decoration-warning="x_receipt_status == 'partial'"
+                       decoration-success="x_receipt_status == 'full'"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="purchase_order_list_receipt_status" model="ir.ui.view">
+        <field name="name">purchase.order.list.receipt.status</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_view_tree"/>
+        <field name="arch" type="xml">
+            <field name="invoice_status" position="after">
+                <field name="x_receipt_status"
+                       string="Receipt Status"
+                       widget="badge"
+                       optional="show"
+                       decoration-danger="x_receipt_status == 'not_received'"
+                       decoration-warning="x_receipt_status == 'partial'"
+                       decoration-success="x_receipt_status == 'full'"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="purchase_order_base_list_receipt_status" model="ir.ui.view">
+        <field name="name">purchase.order.base.list.receipt.status</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_tree"/>
+        <field name="arch" type="xml">
+            <field name="invoice_status" position="after">
+                <field name="x_receipt_status"
+                       string="Receipt Status"
+                       widget="badge"
+                       optional="show"
+                       decoration-danger="x_receipt_status == 'not_received'"
+                       decoration-warning="x_receipt_status == 'partial'"
+                       decoration-success="x_receipt_status == 'full'"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="purchase_order_filter_receipt_status" model="ir.ui.view">
+        <field name="name">purchase.order.filter.receipt.status</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search/group" position="before">
+                <separator/>
+                <filter name="receipt_status_not_received"
+                        string="Not Received"
+                        domain="[('x_receipt_status', '=', 'not_received')]"/>
+                <filter name="receipt_status_partial"
+                        string="Partially Received"
+                        domain="[('x_receipt_status', '=', 'partial')]"/>
+                <filter name="receipt_status_full"
+                        string="Fully Received"
+                        domain="[('x_receipt_status', '=', 'full')]"/>
+            </xpath>
+            <xpath expr="//search/group" position="inside">
+                <filter name="group_by_receipt_status"
+                        string="Receipt Status"
+                        domain="[]"
+                        context="{'group_by': 'x_receipt_status'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="purchase_order_search_receipt_status" model="ir.ui.view">
+        <field name="name">purchase.order.search.receipt.status</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_view_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search/group" position="before">
+                <separator/>
+                <filter name="receipt_status_not_received"
+                        string="Not Received"
+                        domain="[('x_receipt_status', '=', 'not_received')]"/>
+                <filter name="receipt_status_partial"
+                        string="Partially Received"
+                        domain="[('x_receipt_status', '=', 'partial')]"/>
+                <filter name="receipt_status_full"
+                        string="Fully Received"
+                        domain="[('x_receipt_status', '=', 'full')]"/>
+            </xpath>
+            <xpath expr="//search/group" position="inside">
+                <filter name="group_by_receipt_status"
+                        string="Receipt Status"
+                        domain="[]"
+                        context="{'group_by': 'x_receipt_status'}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
