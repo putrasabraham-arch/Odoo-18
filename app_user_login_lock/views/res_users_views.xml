@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_users_form_login_lock" model="ir.ui.view">
+        <field name="name">res.users.form.login.lock</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/header" position="inside">
+                <field name="login_locked" invisible="1" groups="app_user_login_lock.group_app_user_login_lock_manager"/>
+                <button name="action_lock_login" type="object"
+                        string="Lock Login" class="btn-danger"
+                        groups="app_user_login_lock.group_app_user_login_lock_manager"
+                        invisible="not id or not active or login_locked"/>
+                <button name="action_unlock_login" type="object"
+                        string="Unlock Login" class="btn-success"
+                        groups="app_user_login_lock.group_app_user_login_lock_manager"
+                        invisible="not id or not login_locked"/>
+            </xpath>
+            <xpath expr="//page[@name='account_security']" position="inside">
+                <group string="Manual Login Lock" groups="app_user_login_lock.group_app_user_login_lock_manager">
+                    <field name="login_locked" readonly="1"/>
+                    <field name="login_locked_by" readonly="1" invisible="not login_locked"/>
+                    <field name="login_locked_at" readonly="1" invisible="not login_locked"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_users_tree_login_lock" model="ir.ui.view">
+        <field name="name">res.users.list.login.lock</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list/field[@name='login_date']" position="after">
+                <field name="login_locked" optional="show" groups="app_user_login_lock.group_app_user_login_lock_manager"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_users_search_login_lock" model="ir.ui.view">
+        <field name="name">res.users.search.login.lock</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <filter name="login_locked" string="Login Locked"
+                        domain="[('login_locked', '=', True)]"
+                        groups="app_user_login_lock.group_app_user_login_lock_manager"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

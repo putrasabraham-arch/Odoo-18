@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_app_user_login_lock_tree" model="ir.ui.view">
+        <field name="name">app.user.login.lock.list</field>
+        <field name="model">app.user.login.lock</field>
+        <field name="arch" type="xml">
+            <list>
+                <header>
+                    <button name="action_sync_users" type="object"
+                            string="Sync Users" class="btn-primary"/>
+                </header>
+                <field name="name"/>
+                <field name="login"/>
+                <button name="action_lock_login" type="object"
+                        string="Lock Login" class="btn-danger"
+                        invisible="locked or not user_active"/>
+                <button name="action_unlock_login" type="object"
+                        string="Unlock Login" class="btn-success"
+                        invisible="not locked or not user_active"/>
+                <button name="action_deactivate_user" type="object"
+                        string="Deactivate" class="btn-warning"
+                        invisible="not user_active"/>
+                <button name="action_activate_user" type="object"
+                        string="Activate" class="btn-secondary"
+                        invisible="user_active"/>
+                <field name="locked" readonly="1"/>
+                <field name="locked_by" readonly="1"/>
+                <field name="locked_at" readonly="1"/>
+                <field name="user_active" readonly="1" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_app_user_login_lock_form" model="ir.ui.view">
+        <field name="name">app.user.login.lock.form</field>
+        <field name="model">app.user.login.lock</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="user_id"/>
+                        <field name="name" readonly="1"/>
+                        <field name="login" readonly="1"/>
+                        <field name="user_active" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="locked" readonly="1"/>
+                        <field name="locked_by" readonly="1"/>
+                        <field name="locked_at" readonly="1"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_lock_login" type="object"
+                            string="Lock Login" class="btn-danger"
+                            invisible="locked or not user_active"/>
+                    <button name="action_unlock_login" type="object"
+                            string="Unlock Login" class="btn-success"
+                            invisible="not locked or not user_active"/>
+                    <button name="action_deactivate_user" type="object"
+                            string="Deactivate" class="btn-warning"
+                            invisible="not user_active"/>
+                    <button name="action_activate_user" type="object"
+                            string="Activate" class="btn-secondary"
+                            invisible="user_active"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_app_user_login_lock" model="ir.actions.act_window">
+        <field name="name">User Login Lock</field>
+        <field name="res_model">app.user.login.lock</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_app_user_login_lock_tree"/>
+        <field name="domain">[('is_privileged', '=', False)]</field>
+    </record>
+
+    <record id="action_app_lock_login_bulk" model="ir.actions.server">
+        <field name="name">Lock Login</field>
+        <field name="model_id" ref="model_app_user_login_lock"/>
+        <field name="binding_model_id" ref="model_app_user_login_lock"/>
+        <field name="state">code</field>
+        <field name="code">records.action_lock_login()</field>
+    </record>
+
+    <record id="action_app_unlock_login_bulk" model="ir.actions.server">
+        <field name="name">Unlock Login</field>
+        <field name="model_id" ref="model_app_user_login_lock"/>
+        <field name="binding_model_id" ref="model_app_user_login_lock"/>
+        <field name="state">code</field>
+        <field name="code">records.action_unlock_login()</field>
+    </record>
+
+    <record id="action_app_deactivate_users" model="ir.actions.server">
+        <field name="name">Deactivate Users</field>
+        <field name="model_id" ref="model_app_user_login_lock"/>
+        <field name="binding_model_id" ref="model_app_user_login_lock"/>
+        <field name="state">code</field>
+        <field name="code">records.action_deactivate_user()</field>
+    </record>
+
+    <record id="action_app_activate_users" model="ir.actions.server">
+        <field name="name">Activate Users</field>
+        <field name="model_id" ref="model_app_user_login_lock"/>
+        <field name="binding_model_id" ref="model_app_user_login_lock"/>
+        <field name="state">code</field>
+        <field name="code">records.action_activate_user()</field>
+    </record>
+
+    <menuitem id="menu_app_user_login_lock_root"
+              name="User Login Lock"
+              sequence="20"
+              web_icon="app_user_login_lock,static/description/icon.png"
+              groups="app_user_login_lock.group_app_user_login_lock_manager"/>
+    <menuitem id="menu_app_user_login_lock"
+              name="Login Lock Management"
+              parent="menu_app_user_login_lock_root"
+              action="action_app_user_login_lock"
+              sequence="10"
+              groups="app_user_login_lock.group_app_user_login_lock_manager"/>
+</odoo>
