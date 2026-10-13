@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Override Product Template Form View untuk hide/disable field is_favorite -->
+        <record id="product_template_form_star_access" model="ir.ui.view">
+            <field name="name">product.template.form.star.access</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <!-- Hide field is_favorite di form view -->
+                <xpath expr="//div[@class='oe_title']//field[@name='is_favorite']" position="attributes">
+                    <attribute name="groups">product_favorite_access.group_product_star_access</attribute>
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Override List View dari product_template_views.xml -->
+        <record id="product_template_tree_star_access" model="ir.ui.view">
+            <field name="name">product.template.tree.star.access</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_tree_view"/>
+            <field name="arch" type="xml">
+                <!-- Hide field is_favorite di tree view -->
+                <xpath expr="//field[@name='is_favorite']" position="attributes">
+                    <attribute name="groups">product_favorite_access.group_product_star_access</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Override Kanban View dari product_template_views.xml -->
+        <record id="product_template_kanban_star_access" model="ir.ui.view">
+            <field name="name">product.template.kanban.star.access</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_kanban_view"/>
+            <field name="arch" type="xml">
+                <!-- Hide field is_favorite di kanban view -->
+                <xpath expr="//field[@name='is_favorite']" position="attributes">
+                    <attribute name="groups">product_favorite_access.group_product_star_access</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

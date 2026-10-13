@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Group untuk Akses Star Product -->
+        <record id="group_product_star_access" model="res.groups">
+            <field name="name">Akses Star Product</field>
+            <field name="comment">User dengan grup ini dapat mengakses dan memodifikasi status Star/Favorite pada produk</field>
+            <field name="category_id" ref="base.module_category_product"/>
+        </record>
+    </data>
+</odoo>
