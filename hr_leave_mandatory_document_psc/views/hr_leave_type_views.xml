@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_holiday_status_form_mandatory_support_document_psc" model="ir.ui.view">
+        <field name="name">hr.leave.type.form.mandatory.support.document.psc</field>
+        <field name="model">hr.leave.type</field>
+        <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='support_document']" position="after">
+                <field name="mandatory_support_document" string="Wajib Dokumen Pendukung"
+                       help="Pengajuan cuti dengan tipe ini tidak dapat disimpan/disetujui sebelum dokumen pendukung dilampirkan. Opsi 'Izinkan Melampirkan Dokumen Pendukung' otomatis aktif."/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_leave_view_form_mandatory_support_document_psc" model="ir.ui.view">
+        <field name="name">hr.leave.form.mandatory.support.document.psc</field>
+        <field name="model">hr.leave</field>
+        <field name="inherit_id" ref="hr_holidays.hr_leave_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='leave_type_support_document']" position="after">
+                <field name="leave_type_mandatory_support_document" invisible="1"/>
+                <field name="supported_attachment_ids_count" invisible="1"/>
+            </xpath>
+            <xpath expr="//div[@name='duration_warning']" position="after">
+                <div class="alert alert-warning my-2" role="alert"
+                     invisible="not leave_type_mandatory_support_document or supported_attachment_ids_count or state not in ('confirm', 'validate1')">
+                    <i class="fa fa-exclamation-triangle me-1" role="img" aria-label="Warning" title="Warning"/>
+                    <b>Dokumen Pendukung Wajib:</b>
+                    lampirkan dokumen pendukung melalui tombol "Lampirkan File" sebelum pengajuan dapat disimpan dan disetujui.
+                </div>
+            </xpath>
+            <xpath expr="//label[@for='supported_attachment_ids']" position="attributes">
+                <attribute name="required">leave_type_mandatory_support_document</attribute>
+            </xpath>
+            <xpath expr="//field[@name='supported_attachment_ids']" position="attributes">
+                <attribute name="required">leave_type_mandatory_support_document</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
