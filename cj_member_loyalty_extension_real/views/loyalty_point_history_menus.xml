@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_loyalty_point_history_cja"
+              name="Loyalty Point History"
+              action="loyalty_point_history_action"
+              parent="sale_loyalty.menu_discount_loyalty_type_config"
+              sequence="60"
+              groups="sales_team.group_sale_salesman"/>
+
+</odoo>

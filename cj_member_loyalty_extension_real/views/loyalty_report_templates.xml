@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="gift_card_report_inherit_cja" inherit_id="loyalty.gift_card_report">
+        <xpath expr="//h3[strong/span]" position="attributes">
+            <attribute name="t-if">not o.program_id.hide_points_nominal_on_print</attribute>
+        </xpath>
+    </template>
+
+</odoo>

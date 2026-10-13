@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="loyalty_card_view_form_inherit_cja" model="ir.ui.view">
+        <field name="name">loyalty.card.view.form.inherit.cja</field>
+        <field name="model">loyalty.card</field>
+        <field name="inherit_id" ref="loyalty.loyalty_card_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='history_ids']/list" position="inside">
+                <field name="point_history_count" optional="hide" string="Point Batches"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

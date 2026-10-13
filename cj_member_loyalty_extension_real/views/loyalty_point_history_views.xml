@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="loyalty_point_history_view_tree" model="ir.ui.view">
+        <field name="name">loyalty.point.history.view.list</field>
+        <field name="model">loyalty.point.history</field>
+        <field name="arch" type="xml">
+            <list string="Loyalty Point History"
+                  decoration-warning="status == 'expired'"
+                  decoration-danger="status == 'cancelled'">
+                <field name="transaction_date"/>
+                <field name="partner_id"/>
+                <field name="order_id" optional="show"/>
+                <field name="invoice_id" optional="show"/>
+                <field name="loyalty_card_id" optional="hide"/>
+                <field name="points" sum="Total Points"/>
+                <field name="expiry_date"/>
+                <field name="status" widget="badge"
+                       decoration-success="status == 'active'"
+                       decoration-warning="status == 'expired'"
+                       decoration-danger="status == 'cancelled'"/>
+                <field name="cancellation_reason" optional="hide"/>
+                <field name="company_id" optional="hide" groups="base.group_multi_company"/>
+                <button name="action_mark_expired"
+                        type="object"
+                        icon="fa-clock-o"
+                        title="Mark as expired"
+                        invisible="status != 'active'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="loyalty_point_history_view_form" model="ir.ui.view">
+        <field name="name">loyalty.point.history.view.form</field>
+        <field name="model">loyalty.point.history</field>
+        <field name="arch" type="xml">
+            <form string="Loyalty Point History">
+                <header>
+                    <field name="status" widget="statusbar"
+                           statusbar_visible="active,expired,cancelled"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="order_id"/>
+                            <field name="invoice_id"/>
+                            <field name="loyalty_card_id"/>
+                            <field name="loyalty_history_id"/>
+                        </group>
+                        <group>
+                            <field name="transaction_date"/>
+                            <field name="expiry_date"/>
+                            <field name="points"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="cancellation_reason"
+                                   invisible="not cancellation_reason"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="loyalty_point_history_view_search" model="ir.ui.view">
+        <field name="name">loyalty.point.history.view.search</field>
+        <field name="model">loyalty.point.history</field>
+        <field name="arch" type="xml">
+            <search string="Search Loyalty Point History">
+                <field name="partner_id"/>
+                <field name="order_id"/>
+                <field name="invoice_id"/>
+                <field name="loyalty_card_id"/>
+                <field name="transaction_date"/>
+                <field name="expiry_date"/>
+                <separator/>
+                <filter name="active"
+                        string="Active"
+                        domain="[('status', '=', 'active')]"/>
+                <filter name="expired"
+                        string="Expired"
+                        domain="[('status', '=', 'expired')]"/>
+                <filter name="cancelled"
+                        string="Cancelled"
+                        domain="[('status', '=', 'cancelled')]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter name="group_partner" string="Customer"
+                            context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_transaction_date"
+                            string="Tanggal Transaksi"
+                            context="{'group_by': 'transaction_date'}"/>
+                    <filter name="group_status" string="Status"
+                            context="{'group_by': 'status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="loyalty_point_history_action" model="ir.actions.act_window">
+        <field name="name">Loyalty Point History</field>
+        <field name="res_model">loyalty.point.history</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No point history yet.
+            </p>
+            <p>
+                Point batches are recorded automatically each time a sale
+                order is confirmed and the standard Odoo loyalty engine
+                issues points.
+            </p>
+        </field>
+    </record>
+
+</odoo>
