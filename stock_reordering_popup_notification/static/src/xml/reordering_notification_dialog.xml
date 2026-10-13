@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="stock_reordering_popup_notification.ReorderingNotificationDialog">
+        <Dialog title="title"
+                size="'xl'"
+                bodyClass="'p-0'"
+                contentClass="'o_reordering_notification_dialog'">
+            <div class="p-3 border-bottom bg-light-subtle">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="fa fa-exclamation-triangle text-warning fs-4"/>
+                    <strong>
+                        <t t-esc="props.data.total"/>
+                        produk/reordering rules membutuhkan replenishment.
+                    </strong>
+                </div>
+                <div t-if="props.data.total &gt; props.data.limit"
+                     class="text-muted mt-1">
+                    Menampilkan <t t-esc="props.data.limit"/> item pertama.
+                </div>
+            </div>
+
+            <div class="o_reordering_notification_table table-responsive">
+                <table class="table table-sm table-hover align-middle mb-0">
+                    <thead class="table-light sticky-top">
+                        <tr>
+                            <th>Produk</th>
+                            <th>Lokasi / Warehouse</th>
+                            <th class="text-end">Forecast</th>
+                            <th class="text-end">Min</th>
+                            <th class="text-end">Max</th>
+                            <th class="text-end">To Order</th>
+                            <th>UoM</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="props.data.items" t-as="item" t-key="item.orderpoint_id">
+                            <td class="fw-medium" t-esc="item.product_name"/>
+                            <td>
+                                <div t-esc="item.location_name"/>
+                                <small class="text-muted" t-esc="item.warehouse_name"/>
+                            </td>
+                            <td class="text-end text-nowrap" t-esc="formatQuantity(item.forecast_qty)"/>
+                            <td class="text-end text-nowrap" t-esc="formatQuantity(item.min_qty)"/>
+                            <td class="text-end text-nowrap" t-esc="formatQuantity(item.max_qty)"/>
+                            <td class="text-end text-nowrap fw-bold text-danger" t-esc="formatQuantity(item.qty_to_order)"/>
+                            <td class="text-nowrap" t-esc="item.uom_name"/>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <t t-set-slot="footer">
+                <button t-if="props.data.can_open_replenishment"
+                        class="btn btn-primary"
+                        t-on-click="onOpenReplenishment">
+                    Buka Replenishment
+                </button>
+                <button t-if="props.data.can_open_purchase_order"
+                        class="btn btn-outline-primary"
+                        t-on-click="onOpenPurchaseOrder">
+                    Purchase Order
+                </button>
+                <button t-if="props.data.can_open_purchase_request"
+                        class="btn btn-outline-primary"
+                        t-on-click="onOpenPurchaseRequest">
+                    Purchase Request
+                </button>
+                <button class="btn btn-secondary" t-on-click="props.close">
+                    Tutup
+                </button>
+            </t>
+        </Dialog>
+    </t>
+</templates>

@@ -1,0 +1,27 @@
+.o_reordering_notification_dialog {
+    .o_reordering_notification_table {
+        max-height: 60vh;
+        overflow: auto;
+    }
+
+    th,
+    td {
+        padding: 0.65rem 0.75rem;
+    }
+
+    @media (max-width: 767.98px) {
+        .o_reordering_notification_table {
+            max-height: 65vh;
+        }
+
+        th,
+        td {
+            min-width: 6rem;
+        }
+
+        th:first-child,
+        td:first-child {
+            min-width: 12rem;
+        }
+    }
+}
