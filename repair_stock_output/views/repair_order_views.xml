@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_repair_order_form_stock_output" model="ir.ui.view">
+        <field name="name">repair.order.form.stock.output</field>
+        <field name="model">repair.order</field>
+        <field name="inherit_id" ref="repair.view_repair_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[field[@name='product_qty']]" position="after">
+                <field name="use_repair_stock_output" readonly="state != 'draft'"/>
+                <div class="text-muted" invisible="not use_repair_stock_output">
+                    Product to Repair tidak memerlukan stok awal ketika opsi ini aktif.
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
